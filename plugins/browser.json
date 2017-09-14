@@ -60,9 +60,6 @@
         },
         "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "com.kreaserv.nexus"
-        },
-        "cordova-plugin-googlemaps": {
-            "PACKAGE_NAME": "com.kreaserv.nexus"
         }
     },
     "dependent_plugins": {
