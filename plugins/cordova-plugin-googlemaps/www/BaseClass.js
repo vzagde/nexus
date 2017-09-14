@@ -16,7 +16,6 @@ BaseClass.prototype = {
 
     Object.keys(vars).forEach(function(name) {
       vars[name] = null;
-      delete vars[name];
     });
   },
 

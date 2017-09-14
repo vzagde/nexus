@@ -162,7 +162,7 @@
     "cordova-plugin-googlemaps": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-googlemaps"
+            "id": "cordova-plugin-googlemaps@2.0.0"
         },
         "is_top_level": true,
         "variables": {

@@ -308,7 +308,7 @@ function getZIndex(dom) {
     return z;
 }
 
-function getDomDepth(dom, idx, parentZIndex) {
+function getDomDepth(dom, idx) {
     if (dom.nodeType !== Node.ELEMENT_NODE) {
       return 0;
     }
@@ -322,7 +322,7 @@ function getDomDepth(dom, idx, parentZIndex) {
     }
 */
     //var result = ((zIndex + 1) << (depth + 1)) + idx;
-    var result =  (parentZIndex + zIndex) * 10000 + idx;
+    var result =  Math.floor(((zIndex + 1) / (idx + 1) + idx) * 1000);
     orgDom.setAttribute("_depth", result); // for debugging
     return result;
 }

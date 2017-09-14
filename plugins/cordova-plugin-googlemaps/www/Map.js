@@ -259,7 +259,7 @@ Map.prototype.clear = function(callback) {
             id = ids[i];
             instance = obj[id];
             if (instance) {
-              if (typeof instance.remove === "function") {
+              if (instance.type === "MarkerCluster") {
                 instance.remove();
               }
               instance.off();
@@ -531,9 +531,6 @@ Map.prototype.remove = function(callback) {
     }
     self.set('div', undefined);
     self.trigger("remove");
-
-    self.clear();
-
     exec(function() {
         if (typeof callback === "function") {
             callback.call(self);
@@ -1080,12 +1077,6 @@ Map.prototype._onMarkerEvent = function(eventName, markerId, position) {
     var marker = self.MARKERS[markerId] || null;
     if (marker) {
         marker.set('position', position);
-        if (eventName === event.INFO_OPEN) {
-          marker.set("isInfoWindowShown", true);
-        }
-        if (eventName === event.INFO_CLOSE) {
-          marker.set("isInfoWindowShown", false);
-        }
         marker.trigger(eventName, position, marker);
     }
 };
@@ -1100,14 +1091,8 @@ Map.prototype._onClusterEvent = function(eventName, markerClusterId, clusterId, 
         if (eventName === event.MARKER_CLICK) {
           markerCluster.trigger(eventName, position, marker);
         } else {
-          if (eventName === event.INFO_OPEN) {
-            marker.set("isInfoWindowShown", true);
-          }
-          if (eventName === event.INFO_CLOSE) {
-            marker.set("isInfoWindowShown", false);
-          }
+          marker.trigger(eventName, position);
         }
-        marker.trigger(eventName, position, marker);
       } else {
         // cluster marker
         var cluster = markerCluster.getClusterByClusterId(clusterId);
@@ -1128,7 +1113,6 @@ Map.prototype._onOverlayEvent = function(eventName, overlayId) {
         for (var i = 2; i < arguments.length; i++) {
             args.push(arguments[i]);
         }
-        args.push(overlay); // for ionic
         overlay.trigger.apply(overlay, args);
     }
 };

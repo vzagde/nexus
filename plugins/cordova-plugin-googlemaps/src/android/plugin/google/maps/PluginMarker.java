@@ -65,7 +65,7 @@ public class PluginMarker extends MyPlugin implements MyPluginInterface  {
     cordova.getActivity().runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        Set<String> keySet = pluginMap.objects.keys;
+        Set<String> keySet = pluginMap.objects.keySet();
         String[] objectIdArray = keySet.toArray(new String[keySet.size()]);
 
         for (String objectId : objectIdArray) {
@@ -143,7 +143,7 @@ public class PluginMarker extends MyPlugin implements MyPluginInterface  {
       cordova.getActivity().runOnUiThread(new Runnable() {
         @Override
         public void run() {
-          Set<String> keySet = pluginMap.objects.keys;
+          Set<String> keySet = pluginMap.objects.keySet();
           String[] objectIdArray = keySet.toArray(new String[keySet.size()]);
 
           for (String objectId : objectIdArray) {
@@ -985,12 +985,11 @@ public class PluginMarker extends MyPlugin implements MyPluginInterface  {
     options.width = width;
     options.height = height;
     options.noCaching = noCaching;
-    final int taskId = options.hashCode();
 
     AsyncLoadImageInterface onComplete = new AsyncLoadImageInterface() {
       @Override
       public void onPostExecute(AsyncLoadImage.AsyncLoadImageResult result) {
-        iconLoadingTasks.remove(taskId);
+        iconLoadingTasks.remove(this.hashCode());
 
         if (result == null || result.image == null) {
           callback.onPostExecute(marker);
@@ -1109,7 +1108,7 @@ public class PluginMarker extends MyPlugin implements MyPluginInterface  {
 
     AsyncLoadImage task = new AsyncLoadImage(cordova, webView, options, onComplete);
     task.execute();
-    iconLoadingTasks.put(taskId, task);
+    iconLoadingTasks.put(task.hashCode(), task);
   }
 
 

@@ -17,7 +17,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Base64;
 import android.util.Log;
-import android.util.LruCache;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,8 +99,7 @@ public class PluginMap extends MyPlugin implements OnMarkerClickListener,
   private Projection projection = null;
   public Marker activeMarker = null;
   private boolean isDragging = false;
-  //public final ConcurrentHashMap<String, Object> objects = new ConcurrentHashMap<String, Object>();
-  public final ObjectCache objects = new ObjectCache();
+  public final ConcurrentHashMap<String, Object> objects = new ConcurrentHashMap<String, Object>();
 
 
   private enum TEXT_STYLE_ALIGNMENTS {
@@ -1533,7 +1531,7 @@ public class PluginMap extends MyPlugin implements OnMarkerClickListener,
    * @param callbackContext
    * @throws JSONException
    */
-  public void panBy(JSONArray args, final CallbackContext callbackContext) throws JSONException {
+  public void panBy(JSONArray args, CallbackContext callbackContext) throws JSONException {
     int x = args.getInt(0);
     int y = args.getInt(1);
     float xPixel = -x * density;
@@ -1544,7 +1542,6 @@ public class PluginMap extends MyPlugin implements OnMarkerClickListener,
       @Override
       public void run() {
         map.animateCamera(cameraUpdate);
-        callbackContext.success();
       }
     });
   }
@@ -1639,37 +1636,43 @@ public class PluginMap extends MyPlugin implements OnMarkerClickListener,
   @SuppressWarnings("unused")
   public void clear(JSONArray args, final CallbackContext callbackContext) throws JSONException {
 
-    Set<String> pluginNames = plugins.keySet();
-    Iterator<String> iterator = pluginNames.iterator();
-    String pluginName;
-    PluginEntry pluginEntry;
-    while(iterator.hasNext()) {
-      pluginName = iterator.next();
-      if (!"Map".equals(pluginName)) {
-        pluginEntry = plugins.get(pluginName);
-        ((MyPlugin) pluginEntry.plugin).clear();
-      }
-    }
-
-    activity.runOnUiThread(new Runnable() {
+    cordova.getThreadPool().submit(new Runnable() {
       @Override
       public void run() {
-        boolean isSuccess = false;
-        while (!isSuccess) {
-          try {
-            map.clear();
-            isSuccess = true;
-          } catch (Exception e) {
-            e.printStackTrace();
-            isSuccess = false;
+
+        Set<String> pluginNames = plugins.keySet();
+        Iterator<String> iterator = pluginNames.iterator();
+        String pluginName;
+        PluginEntry pluginEntry;
+        while(iterator.hasNext()) {
+          pluginName = iterator.next();
+          if (!"Map".equals(pluginName)) {
+            pluginEntry = plugins.get(pluginName);
+            ((MyPlugin) pluginEntry.plugin).clear();
           }
         }
-        if (callbackContext != null) {
-          callbackContext.success();
-        }
+
+        activity.runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+            boolean isSuccess = false;
+            while (!isSuccess) {
+              try {
+                map.clear();
+                isSuccess = true;
+              } catch (Exception e) {
+                e.printStackTrace();
+                isSuccess = false;
+              }
+            }
+            if (callbackContext != null) {
+              callbackContext.success();
+            }
+          }
+        });
+
       }
     });
-
   }
 
   /**
@@ -2554,7 +2557,7 @@ public class PluginMap extends MyPlugin implements OnMarkerClickListener,
             //pluginEntry = plugins.get(pluginName);
             //myPlugin = (MyPlugin) pluginEntry.plugin;
 
-            keys = objects.keys.toArray(new String[objects.size()]);
+            keys = objects.keySet().toArray(new String[objects.size()]);
             for (j = 0; j < keys.length; j++) {
               key = keys[j];
               if (key.contains("marker")) {
