@@ -81,11 +81,12 @@ function download_image(){
                 uri,
                 cordova.file.externalApplicationStorageDirectory + 'files/download/'+value.icon,
                 function(entry) {
-                    myApp.alert('File ('+counter_i+') Download Completed');
+                    // myApp.alert('File ('+counter_i+') Download Completed');
+                     myApp.alert("download complete: " + entry.toURL());
                     var fileTransfer = new FileTransfer();
                     if (arr_length == counter_i) {
-                        $('.progress_text').text('THANK YOU FOR DOWNLOADING ');
-                        $('.p_t1').fadeIn();
+                        // $('.progress_text').text('THANK YOU FOR DOWNLOADING ');
+                        // $('.p_t1').fadeIn();
                     }
             });
             counter_i = counter_i + 1;
@@ -93,6 +94,8 @@ function download_image(){
             // console.log("Index value: "+index);
             // console.log("Array Lenght: "+arr_length);
         })
+        $('.progress_text').text('THANK YOU FOR DOWNLOADING ');
+        $('.p_t1').fadeIn();
         // myApp.alert('Download Process Completed');
     })
     .fail(function(err) {
