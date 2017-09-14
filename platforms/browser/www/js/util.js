@@ -72,14 +72,15 @@ function download_image(){
         var animate_count = 100/Number(res.download_images.length);
         var animate_counter = animate_count;
         $.each(res.download_images, function( index, value ) {
-            console.log(cordova.file.externalApplicationStorageDirectory);
+            // console.log(cordova.file.externalApplicationStorageDirectory);
             $('.bar_fill').animate({"width":+animate_count+"%"});
             var fileTransfer = new FileTransfer();
             var uri = encodeURI("http://kreaserv-tech.com/mall_app/assets/app_assets/images/"+value.icon);
 
             fileTransfer.download(
                 uri,
-                cordova.file.externalApplicationStorageDirectory + 'files/download/'+value.icon,
+                // cordova.file.externalApplicationStorageDirectory + 'files/download/'+value.icon,
+                cordova.file.dataDirectory + 'files/download/'+value.icon,
                 function(entry) {
                     myApp.alert('File ('+counter_i+') Download Completed');
                     var fileTransfer = new FileTransfer();
@@ -88,7 +89,8 @@ function download_image(){
                         // $('.p_t1').fadeIn();
                     }
             });
-             myApp.alert(cordova.file.externalApplicationStorageDirectory + 'files/download/'+value.icon);
+             myApp.alert(cordova.file.dataDirectory + 'files/download/'+value.icon);
+              console.log(cordova.file.dataDirectory + 'files/download/'+value.icon);
             counter_i = counter_i + 1;
             animate_count = animate_count + animate_counter;
             // console.log("Index value: "+index);
