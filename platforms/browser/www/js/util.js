@@ -96,6 +96,27 @@ function download_image(){
             // console.log("Index value: "+index);
             // console.log("Array Lenght: "+arr_length);
         })
+        var send_url = cordova.file.dataDirectory + 'files/download/';
+        myApp.showIndicator();
+        $.ajax({
+            url: base_url+"/load_ui",
+            type: 'POST',
+            crossDomain: true,
+            data: {
+                send_url : send_url,
+            }
+        })
+        .done(function(res) {
+            load_ui = res;
+            // load_location_ui();
+        })
+        .fail(function(err) {
+            myApp.hideIndicator();
+            myApp.alert('Some error occurred on connecting.');
+        })
+        .always(function() {
+            myApp.hideIndicator();
+        });
         $('.progress_text').text('THANK YOU FOR DOWNLOADING ');
         $('.p_t1').fadeIn();
         // myApp.alert('Download Process Completed');

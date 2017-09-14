@@ -55,34 +55,9 @@ myApp.onPageInit('index', function(page) {
 // // Handle Cordova Device Ready Event
 
 $$(document).on('deviceready', function() {
-    var send_url = cordova.file.externalApplicationStorageDirectory + 'files/download/';
-    console.log(send_url);
-    myApp.showIndicator();
-    $.ajax({
-        url: base_url+"/load_ui",
-        type: 'POST',
-        crossDomain: true,
-        data: {
-            send_url : send_url,
-        }
-    })
-	.done(function(res) {
-    	load_ui = res;
-    	// load_location_ui();
-    })
-    .fail(function(err) {
-        myApp.hideIndicator();
-        myApp.alert('Some error occurred on connecting.');
-    })
-    .always(function() {
-        myApp.hideIndicator();
-    });
-
-   //  var div = document.getElementById("map_box");
-
+    //  var div = document.getElementById("map_box");
   	// // Initialize the map view
   	// map = plugin.google.maps.Map.getMap(div);
-
   	// Wait until the map is ready status.
   	// map.addEventListener(plugin.google.maps.event.MAP_READY, onMapReady);
 });
