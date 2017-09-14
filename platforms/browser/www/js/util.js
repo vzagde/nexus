@@ -81,14 +81,14 @@ function download_image(){
                 uri,
                 cordova.file.externalApplicationStorageDirectory + 'files/download/'+value.icon,
                 function(entry) {
-                    // myApp.alert('File ('+counter_i+') Download Completed');
-                     myApp.alert("download complete: " + entry.toURL());
+                    myApp.alert('File ('+counter_i+') Download Completed');
                     var fileTransfer = new FileTransfer();
                     if (arr_length == counter_i) {
                         // $('.progress_text').text('THANK YOU FOR DOWNLOADING ');
                         // $('.p_t1').fadeIn();
                     }
             });
+             myApp.alert(cordova.file.externalApplicationStorageDirectory + 'files/download/'+value.icon);
             counter_i = counter_i + 1;
             animate_count = animate_count + animate_counter;
             // console.log("Index value: "+index);

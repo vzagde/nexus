@@ -55,11 +55,16 @@ myApp.onPageInit('index', function(page) {
 // // Handle Cordova Device Ready Event
 
 $$(document).on('deviceready', function() {
+    var send_url = cordova.file.externalApplicationStorageDirectory + 'files/download/';
+    console.log(send_url);
     myApp.showIndicator();
     $.ajax({
         url: base_url+"/load_ui",
         type: 'POST',
         crossDomain: true,
+        data: {
+            send_url : send_url,
+        }
     })
 	.done(function(res) {
     	load_ui = res;
