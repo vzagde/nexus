@@ -231,7 +231,7 @@ myApp.onPageInit('location', function(page) {
         // var div = document.getElementById("map_container1");
 
         // Initialize the map view
-        map = plugin.google.maps.Map.getMap(div{
+        map = plugin.google.maps.Map.getMap(div, {
             center: new google.maps.LatLng(37.422359, -122.084344),
             zoom: 14,
             mapTypeId: "MyGmap",
