@@ -229,15 +229,13 @@ myApp.onPageInit('location', function(page) {
     $.each(load_ui.mall_list, function(index, value) {
         var div = document.getElementById("map_container"+value.id);
         // var div = document.getElementById("map_container1");
-
         // Initialize the map view
         map = plugin.google.maps.Map.getMap(div, {
-            center: new google.maps.LatLng(37.422359, -122.084344),
+            center: new plugin.google.maps.LatLng(37.422359, -122.084344),
             zoom: 14,
             mapTypeId: "MyGmap",
             mapTypeControlOptions: {
-                mapTypeIds: mapTypeIds,
-                style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+                style: plugin.google.maps.MapTypeControlStyle.DROPDOWN_MENU
             }
         });
 
