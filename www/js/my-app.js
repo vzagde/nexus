@@ -60,6 +60,7 @@ $$(document).on('deviceready', function() {
   	// map = plugin.google.maps.Map.getMap(div);
   	// Wait until the map is ready status.
   	// map.addEventListener(plugin.google.maps.event.MAP_READY, onMapReady);
+
 });
 
 // myApp.onPageInit('location', function(page) {
@@ -219,21 +220,30 @@ $$(document).on('deviceready', function() {
 // 	}
 // })
 myApp.onPageInit('location', function(page) {
+    var mall_id = 1;
 	$("#location_container").empty();
 	$("#location_container").html(load_ui.location_html);
 
 	$(".location_containers_hide").hide();
 	$(".location_containers_"+mall_id).show();
-    // $.each(load_ui.mall_list, function(index, value) {
-        // var div = document.getElementById("map_container1"+value.id);
-        var div = document.getElementById("map_container1");
+    $.each(load_ui.mall_list, function(index, value) {
+        var div = document.getElementById("map_container"+value.id);
+        // var div = document.getElementById("map_container1");
 
         // Initialize the map view
-        map = plugin.google.maps.Map.getMap(div);
+        map = plugin.google.maps.Map.getMap(div{
+            center: new google.maps.LatLng(37.422359, -122.084344),
+            zoom: 14,
+            mapTypeId: "MyGmap",
+            mapTypeControlOptions: {
+                mapTypeIds: mapTypeIds,
+                style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+            }
+        });
 
         // Wait until the map is ready status.
         map.addEventListener(plugin.google.maps.event.MAP_READY, onMapReady);
-    // })
+    })
     
     function onMapReady() {
       var button = document.getElementById("button");
